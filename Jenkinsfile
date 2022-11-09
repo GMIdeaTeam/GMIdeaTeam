@@ -9,10 +9,12 @@ node {
         stage('Build Game') {
                 app.inside {
                         sh '${UnityPath}/Unity -batchmode -quit -logFile "${PWD}/Build.log" -buildTarget StandaloneWindows -projectPath '/GMIdeaTeam' -executeMethod Build.BuildStandaloneWindows'
+		}
+	}
         stage('Push image') {
                 docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
                 app.push("${env.BUILD_NUMBER}")
-                app.push("latest"
+                app.push("latest")
                 }
         }
 }
