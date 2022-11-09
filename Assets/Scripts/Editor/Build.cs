@@ -1,5 +1,6 @@
 using UnityEditor;
 using System;
+using System.Collections.Generic;
 
 namespace Builder.Editor {
 
@@ -13,18 +14,20 @@ namespace Builder.Editor {
             buildPlayerOptions.options = BuildOptions.None;
             BuildPipeline.BuildPlayer(buildPlayerOptions);
         }
+
         private static string[] GetBuildSceneList()
         {
-                EditorBuildSettingsScene[] scenes = UnityEditor.EditorBuildSettings.scenes;
+            EditorBuildSettingsScene[] scenes = UnityEditor.EditorBuildSettings.scenes;
 
-                List<string> listScenePath = new List<string>();
+            List<string> listScenePath = new List<string>();
 
-                for (int i = 0; i < scenes.Length; i++)
-                {
-                        if (scenes[i].enabled)
-                                listScenePath.Add(scenes[i].path);
-                }
+            for (int i = 0; i < scenes.Length; i++)
+            {
+                if (scenes[i].enabled)
+                    listScenePath.Add(scenes[i].path);
+            }
 
-                return listScenePath.ToArray();
+            return listScenePath.ToArray();
+        }
     }
 }
