@@ -12033,8 +12033,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1443388233}
   - component: {fileID: 1443388231}
-  - component: {fileID: 1443388234}
   - component: {fileID: 1443388235}
+  - component: {fileID: 1443388234}
+  - component: {fileID: 1443388236}
   m_Layer: 0
   m_Name: Example
   m_TagString: Untagged
@@ -12121,8 +12122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42fcfe11964b74e4794ae21c06956058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MoveSpeed>k__BackingField: 5
-  modeController: {fileID: 36094268}
 --- !u!95 &1443388235
 Animator:
   serializedVersion: 4
@@ -12143,6 +12142,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1443388236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443388230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f64ee4634d22ad5419f44af11003523a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <MoveSpeed>k__BackingField: 5
+  direction: 2
 --- !u!1 &1445426231
 GameObject:
   m_ObjectHideFlags: 0
