@@ -32,7 +32,6 @@
 
 # Visual Studio config
 .vsconfig
-.editorconfig
 
 # Gradle cache directory
 .gradle/

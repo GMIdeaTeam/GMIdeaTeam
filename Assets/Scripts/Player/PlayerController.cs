@@ -4,25 +4,17 @@ using UnityEngine;
 
 namespace Idea.Player
 {
-    public class Player : MonoBehaviour
+    public class PlayerController : MonoBehaviour
     {
-        public enum Direction
-        {
-            UP, RIGHT, DOWN, LEFT
-        };
-        [field: SerializeField]
-        float MoveSpeed { get; set; } = 5f; // ModeController의 speed를 참조할 수 있도록 추후 변경
-
         Vector2 moveVector;
-        Direction direction = Direction.DOWN;
 
+        PlayerData playerData;
         Animator playerAnimator;
-
-        public ModeController modeController;
 
         // Start is called before the first frame update
         void Start()
         {
+            playerData = GetComponent<PlayerData>();
             playerAnimator = GetComponent<Animator>();
         }
 
@@ -39,52 +31,31 @@ namespace Idea.Player
             moveVector.x = Input.GetAxisRaw("Horizontal");
             moveVector.y = Input.GetAxisRaw("Vertical");
 
-            transform.Translate(moveVector * Time.deltaTime * MoveSpeed);
+            transform.Translate(playerData.MoveSpeed * Time.deltaTime * moveVector);
         }
 
         private void UpdateDirection()
         {
             if (moveVector.x > 0 && moveVector.y == 0)
             {
-                direction = Direction.RIGHT;
+                playerData.direction = PlayerData.Direction.RIGHT;
             }
             else if (moveVector.x < 0 && moveVector.y == 0)
             {
-                direction = Direction.LEFT;
+                playerData.direction = PlayerData.Direction.LEFT;
             }
             else if (moveVector.y > 0 && moveVector.x == 0)
             {
-                direction = Direction.UP;
+                playerData.direction = PlayerData.Direction.UP;
             }
             else if (moveVector.y < 0 && moveVector.x == 0)
             {
-                direction = Direction.DOWN;
+                playerData.direction = PlayerData.Direction.DOWN;
             }
         }
 
         private void UpdateAnimation()
         {
-            //if (moveVector.x != 0)
-            //{
-            //    playerAnimator.SetBool("isMoveX", true);
-            //}
-            //else
-            //{
-            //    playerAnimator.SetBool("isMoveX", false);
-            //}
-
-            //if (moveVector.y != 0)
-            //{
-            //    playerAnimator.SetBool("isMoveY", true);
-            //}
-            //else
-            //{
-            //    playerAnimator.SetBool("isMoveY", false);
-            //}
-
-            //playerAnimator.SetFloat("inputX", moveVector.x);
-            //playerAnimator.SetFloat("inputY", moveVector.y);
-
             if (moveVector.x != 0 || moveVector.y != 0)
             {
                 playerAnimator.SetBool("isMove", true);
@@ -94,7 +65,7 @@ namespace Idea.Player
                 playerAnimator.SetBool("isMove", false);
             }
 
-            playerAnimator.SetFloat("direction", (float)direction);
+            playerAnimator.SetFloat("direction", (float)playerData.direction);
         }
     }
 }
