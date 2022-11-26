@@ -40,7 +40,11 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
+<<<<<<< HEAD
     - {fileID: -64537731, guid: dc3501a20aaf7414bba49e4e296b1963, type: 3}
+=======
+    - {fileID: 0}
+>>>>>>> 3416082ec063e2338dad7c53437ef5e6c1a07efc
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
