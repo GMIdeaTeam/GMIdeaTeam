@@ -13,13 +13,13 @@ public class MosterMove : MonoBehaviour
     
     [field: SerializeField]
     float MoveSpeed { get; set; } = 1f;
+    
+    public GameObject player;
 
     Vector2 moveVector;
     Direction direction = Direction.DOWN;
 
     Animator monsterAnimator;
-
-    GameObject player;
 
     private void Start()
     {
@@ -62,6 +62,8 @@ public class MosterMove : MonoBehaviour
 
         transform.position =
             Vector2.MoveTowards(transform.position, player.transform.position, MoveSpeed * Time.deltaTime);
+
+        UpdateAnimation();
     }
 
     private void UpdateDirection()
