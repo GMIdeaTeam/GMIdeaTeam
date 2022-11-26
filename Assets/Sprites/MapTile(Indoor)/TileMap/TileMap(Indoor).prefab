@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3983152869678559907}
   - component: {fileID: 2152504623394316482}
   m_Layer: 0
-  m_Name: "\uD0C0\uC77C \uB9F5 (\uC2E4\uB0B4)"
+  m_Name: TileMap(Indoor)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
