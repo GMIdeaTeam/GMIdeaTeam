@@ -88,34 +88,13 @@ public class MosterMove : MonoBehaviour
 
     private void UpdateAnimation()
     {
-        //if (moveVector.x != 0)
-        //{
-        //    playerAnimator.SetBool("isMoveX", true);
-        //}
-        //else
-        //{
-        //    playerAnimator.SetBool("isMoveX", false);
-        //}
-    
-        //if (moveVector.y != 0)
-        //{
-        //    playerAnimator.SetBool("isMoveY", true);
-        //}
-        //else
-        //{
-        //    playerAnimator.SetBool("isMoveY", false);
-        //}
-    
-        //playerAnimator.SetFloat("inputX", moveVector.x);
-        //playerAnimator.SetFloat("inputY", moveVector.y);
-    
         if (moveVector.x != 0 || moveVector.y != 0)
         {
             monsterAnimator.SetBool("isMove", true);
         }
         else
         {
-            monsterAnimator.SetBool("isMove", false);
+            monsterAnimator.SetBool("isMove", true);
         }
     
         monsterAnimator.SetFloat("direction", (float)direction);
