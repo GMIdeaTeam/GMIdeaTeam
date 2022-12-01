@@ -11,6 +11,15 @@ namespace Idea.Player
         PlayerData playerData;
         Animator playerAnimator;
 
+        // 공격한 몬스터의 정보
+        private struct MonsterInfo
+        {
+            public int attackPower; // 공격력
+            public float attackWaitTime; // 공격 대기시간
+        } MonsterInfo monsterInfo;
+        int collideMonsterNum = 0;
+        bool isBeingDamaged = false;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -24,6 +33,26 @@ namespace Idea.Player
             PlayerMove();
             UpdateDirection();
             UpdateAnimation();
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Monster"))
+            {
+                collideMonsterNum++;
+                if (collideMonsterNum == 1 && !isBeingDamaged) // 처음 충돌한 몬스터
+                {
+                    StartCoroutine(nameof(Damage));
+                }
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Monster"))
+            {
+                collideMonsterNum--;
+            }
         }
 
         private void PlayerMove()
@@ -66,6 +95,17 @@ namespace Idea.Player
             }
 
             playerAnimator.SetFloat("direction", (float)playerData.direction);
+        }
+
+        IEnumerator Damage()
+        {
+            isBeingDamaged = true;
+            while(collideMonsterNum > 0)
+            {
+                playerData.HP = playerData.HP - 1; // HP감소량은 몬스터의 공격력(추후 업데이트)
+                yield return new WaitForSeconds(1.0f); // 대기시간은 몬스터의 공격대기시간(추후 업데이트)
+            }
+            isBeingDamaged = false;
         }
     }
 }
