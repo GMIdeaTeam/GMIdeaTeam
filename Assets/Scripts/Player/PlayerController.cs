@@ -8,7 +8,7 @@ namespace Idea.Player
     {
         Vector2 moveVector;
 
-        public Idea.ModeController.ModeController modeController;
+        public ModeController.ModeController modeController;
         PlayerData playerData;
         Animator playerAnimator;
 
@@ -36,11 +36,9 @@ namespace Idea.Player
             UpdateDirection();
             UpdateAnimation();
         }
-
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            Debug.Log("collide!");
-            if (collision.collider.CompareTag("Monster"))
+            if (collision.CompareTag("Monster"))
             {
                 collideMonsterNum++;
                 if (collideMonsterNum == 1 && !isBeingDamaged) // 처음 충돌한 몬스터
@@ -50,9 +48,9 @@ namespace Idea.Player
             }
         }
 
-        private void OnCollisionExit2D(Collision2D collision)
+        private void OnTriggerExit2D(Collider2D collision)
         {
-            if (collision.collider.CompareTag("Monster"))
+            if (collision.CompareTag("Monster"))
             {
                 collideMonsterNum--;
             }
