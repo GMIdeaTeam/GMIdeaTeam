@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MosterMove : MonoBehaviour
+public class MonsterMove : MonoBehaviour
 {
     public enum Direction
     {
