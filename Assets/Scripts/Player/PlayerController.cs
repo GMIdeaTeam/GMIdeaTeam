@@ -8,6 +8,7 @@ namespace Idea.Player
     {
         Vector2 moveVector;
 
+        public Idea.ModeController.ModeController modeController;
         PlayerData playerData;
         Animator playerAnimator;
 
@@ -30,26 +31,28 @@ namespace Idea.Player
         // Update is called once per frame
         void Update()
         {
+            DamageInEditMode();
             PlayerMove();
             UpdateDirection();
             UpdateAnimation();
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.CompareTag("Monster"))
+            Debug.Log("collide!");
+            if (collision.collider.CompareTag("Monster"))
             {
                 collideMonsterNum++;
                 if (collideMonsterNum == 1 && !isBeingDamaged) // 처음 충돌한 몬스터
                 {
-                    StartCoroutine(nameof(Damage));
+                    StartCoroutine(DamageByMonster());
                 }
             }
         }
 
-        private void OnTriggerExit2D(Collider2D collision)
+        private void OnCollisionExit2D(Collision2D collision)
         {
-            if (collision.CompareTag("Monster"))
+            if (collision.collider.CompareTag("Monster"))
             {
                 collideMonsterNum--;
             }
@@ -97,12 +100,22 @@ namespace Idea.Player
             playerAnimator.SetFloat("direction", (float)playerData.direction);
         }
 
-        IEnumerator Damage()
+        private void Damage(float damage)
+        {
+            playerData.HP -= damage;
+        }
+
+        private void DamageInEditMode()
+        {
+            if (modeController.IsEditMode) Damage(2.0f * Time.deltaTime);
+        }
+
+        IEnumerator DamageByMonster()
         {
             isBeingDamaged = true;
             while(collideMonsterNum > 0)
             {
-                playerData.HP = playerData.HP - 1; // HP감소량은 몬스터의 공격력(추후 업데이트)
+                Damage(1.0f); // HP감소량은 몬스터의 공격력(추후 업데이트)
                 yield return new WaitForSeconds(1.0f); // 대기시간은 몬스터의 공격대기시간(추후 업데이트)
             }
             isBeingDamaged = false;

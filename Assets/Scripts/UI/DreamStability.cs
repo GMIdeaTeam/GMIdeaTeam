@@ -1,18 +1,16 @@
 using Idea.ModeController;
+using Idea.Player;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DreamStability : MonoBehaviour
 {
     public ModeController modeController;
-    public int gauge = 100;
+    public PlayerData playerData;
 
-    void Update()
+    void FixedUpdate()
     {
-        if (modeController.IsEditMode)
-        {
-            GetComponent<Image>().fillAmount -= 1.0f / gauge * 2 * Time.deltaTime;
-        }
+        GetComponent<Image>().fillAmount = playerData.HP / 100.0f;
     }
 
 }
