@@ -1,59 +1,70 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Idea.Player;
 using UnityEngine;
 
-public class ModeController : MonoBehaviour
+namespace Idea.ModeController
 {
-    bool isEditMode = false;
-
-    public Camera readCamera;
-    public Camera editCamera;
-
-    public bool checkEditMode()
+    public class ModeController : MonoBehaviour
     {
-        return isEditMode;
-    }
+        bool isEditMode = false;
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R)) // 다른 키로 바뀔 수도 있음
+        public Camera readCamera;
+        public Camera editCamera;
+
+        public PlayerData playerData;
+
+        public bool IsEditMode
         {
-            if (isEditMode)
-                EditToRead();
-            else
-                ReadToEdit();
-            
-            isEditMode = !isEditMode;
+            get { return isEditMode; }
+            set { isEditMode = value; }
         }
-    }
 
-    void ReadToEdit()
-    {
-        // 읽기 모드 -> 편집 모드
-        ChangeToEditCamera();
-    }
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.R)) // 다른 키로 바뀔 수도 있음
+            {
+                if (IsEditMode)
+                    EditToRead();
+                else
+                    ReadToEdit();
 
-    void EditToRead()
-    {
-        // 편집 모드 -> 읽기 모드
-        ChangeToReadCamera();
-    }
+                ChangeSpeed();
+                IsEditMode = !IsEditMode;
+            }
+        }
 
-    void ChangeToEditCamera()
-    {
-        readCamera.gameObject.SetActive(false);
-        editCamera.gameObject.SetActive(true);
-    }
+        private void ReadToEdit()
+        {
+            // 읽기 모드 -> 편집 모드
+            ChangeToEditCamera();
+        }
 
-    void ChangeToReadCamera()
-    {
-        readCamera.gameObject.SetActive(true);
-        editCamera.gameObject.SetActive(false);
-    }
+        private void EditToRead()
+        {
+            // 편집 모드 -> 읽기 모드
+            ChangeToReadCamera();
+        }
 
-    void ChangeSpeed()
-    {
-        // 이동 속도 변경
+        private void ChangeToEditCamera()
+        {
+            readCamera.gameObject.SetActive(false);
+            editCamera.gameObject.SetActive(true);
+        }
+
+        private void ChangeToReadCamera()
+        {
+            readCamera.gameObject.SetActive(true);
+            editCamera.gameObject.SetActive(false);
+        }
+        
+        private void ChangeSpeed()
+        {
+            if (!isEditMode) // 읽기 -> 편집
+                playerData.MoveSpeed = 3f; // 추후 변경
+            else // 편집 -> 읽기
+                playerData.MoveSpeed = 5f;
+        }
     }
 }

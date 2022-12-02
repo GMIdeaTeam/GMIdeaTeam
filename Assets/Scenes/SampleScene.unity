@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   readCamera: {fileID: 519420031}
   editCamera: {fileID: 360333397}
+  playerData: {fileID: 1443388236}
 --- !u!4 &36094269
 Transform:
   m_ObjectHideFlags: 0
