@@ -5,7 +5,6 @@ TagManager:
   serializedVersion: 2
   tags:
   - Monster
-  - Moster
   layers:
   - Default
   - TransparentFX
