@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   readCamera: {fileID: 519420031}
   editCamera: {fileID: 360333397}
+  playerData: {fileID: 1443388238}
 --- !u!4 &36094269
 Transform:
   m_ObjectHideFlags: 0
@@ -12643,6 +12644,8 @@ GameObject:
   - component: {fileID: 1443388235}
   - component: {fileID: 1443388236}
   - component: {fileID: 1443388237}
+  - component: {fileID: 1443388239}
+  - component: {fileID: 1443388238}
   m_Layer: 0
   m_Name: Example
   m_TagString: Player
@@ -12729,8 +12732,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42fcfe11964b74e4794ae21c06956058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MoveSpeed>k__BackingField: 5
-  modeController: {fileID: 36094268}
 --- !u!95 &1443388235
 Animator:
   serializedVersion: 4
@@ -12798,6 +12799,32 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &1443388238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443388230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f64ee4634d22ad5419f44af11003523a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <MoveSpeed>k__BackingField: 5
+  direction: 2
+--- !u!114 &1443388239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443388230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42fcfe11964b74e4794ae21c06956058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1445426231
 GameObject:
   m_ObjectHideFlags: 0
