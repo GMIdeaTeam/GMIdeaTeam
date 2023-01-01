@@ -46,6 +46,10 @@ namespace Idea.Player
                     StartCoroutine(DamageByMonster());
                 }
             }
+            else if (collision.CompareTag("Portal"))
+            {
+
+            }
         }
 
         private void OnTriggerExit2D(Collider2D collision)
@@ -117,6 +121,11 @@ namespace Idea.Player
                 yield return new WaitForSeconds(1.0f); // 대기시간은 몬스터의 공격대기시간(추후 업데이트)
             }
             isBeingDamaged = false;
+        }
+
+        private void Spawn(int stageNum)
+        {
+            double y = -53 * (stageNum - 1) - 1.5;
         }
     }
 }
