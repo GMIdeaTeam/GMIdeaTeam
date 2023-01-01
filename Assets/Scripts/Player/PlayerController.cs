@@ -21,6 +21,10 @@ namespace Idea.Player
         int collideMonsterNum = 0;
         bool isBeingDamaged = false;
 
+        Vector3 spawnPos;
+        readonly float spawnPosX = -29.5f;
+        float spawnPosY;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -48,7 +52,9 @@ namespace Idea.Player
             }
             else if (collision.CompareTag("Portal"))
             {
+                Portal portal = collision.gameObject.GetComponent<Portal>();
 
+                Spawn(portal.NextStage);
             }
         }
 
@@ -125,7 +131,9 @@ namespace Idea.Player
 
         private void Spawn(int stageNum)
         {
-            double y = -53 * (stageNum - 1) - 1.5;
+            spawnPosY = -53 * (stageNum - 1) - 1.5f;
+
+            transform.position = new Vector3(spawnPosX, spawnPosY, transform.position.z);
         }
     }
 }

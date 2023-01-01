@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Portal : MonoBehaviour
 {
-    public readonly int nextStage;
+    [field: SerializeField]
+    public int NextStage { get; private set; }
 
     // Start is called before the first frame update
     void Start()
