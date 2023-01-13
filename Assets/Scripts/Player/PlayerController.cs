@@ -83,9 +83,16 @@ namespace Idea.Player
             transform.Translate(playerData.MoveSpeed * Time.deltaTime * moveVector);
         }
 
-
+        /// <summary>
+        /// 플레이어가 포탈을 탔을 때 실행되는 코루틴 함수
+        /// </summary>
+        /// <param name="direction">포탈의 플레이어 전송 방향</param>
+        /// <param name="distance">포탈의 플레이어 전송 거리</param>
+        /// <returns></returns>
         public IEnumerator StageMove(PlayerData.Direction direction, float distance)
         {
+            if (isMovingStage) yield break;
+
             Debug.Log("Move!");
 
             isMovingStage = true;
