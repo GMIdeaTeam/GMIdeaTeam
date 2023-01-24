@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,26 +9,54 @@ public class ClearInfo : MonoBehaviour
     public GameObject MissionClear;
     public GameObject GetItem;
 
-    public void NoticeMonsterClear(string monsterName, int kills, int total)
+    public GameObject InfoUI;
+
+    private const int CNT = 500;
+    private float UIWidth;
+
+    private void Start()
     {
-        StartCoroutine(IWaitSeconds(MonsterClear, monsterName, kills, total, "처치"));
-    }
-    
-    public void NoticeMissionClear(string missionName, int missionCnt, int total)
-    {
-        StartCoroutine(IWaitSeconds(MissionClear, missionName, missionCnt, total, "완료"));
-    }
-    
-    public void NoticeGetItem(string itemName, int itemCnt, int total)
-    {
-        StartCoroutine(IWaitSeconds(GetItem, itemName, itemCnt, total, "획득"));
+        UIWidth = InfoUI.GetComponent<RectTransform>().rect.width;
     }
 
-    IEnumerator IWaitSeconds(GameObject gameObj, string name, int cnt, int total, string action)
+    public void NoticeMonsterClear(string monsterName)
+    {
+        StartCoroutine(IShowInfoUI(MonsterClear, monsterName, "처치"));
+    }
+    
+    public void NoticeMissionClear(string missionName)
+    {
+        StartCoroutine(IShowInfoUI(MissionClear, missionName, "완료"));
+    }
+    
+    public void NoticeGetItem(string itemName)
+    {
+        StartCoroutine(IShowInfoUI(GetItem, itemName, "획득"));
+    }
+
+    IEnumerator IShowInfoUI(GameObject gameObj, string name, string action)
     {
         gameObj.SetActive(true);
-        gameObj.GetComponent<Text>().text = name + " ( " + cnt + " / " + total + " ) " + action;
-        yield return new WaitForSeconds(2.0f);
+        gameObj.GetComponent<Text>().text = name + " " + action;
+
+        RectTransform UIRect = InfoUI.GetComponent<RectTransform>();
+        Vector3 defaultPos = UIRect.position;
+        
+        for (int i = 1; i <= CNT; i++)
+        {
+            UIRect.position += new Vector3(-UIWidth / CNT, 0, 0);
+            yield return new WaitForSeconds(0.000001f);
+        }
+        
+        yield return new WaitForSeconds(3.0f);
+        
+        for (int i = 1; i <= CNT; i++)
+        {
+            UIRect.position += new Vector3(UIWidth / CNT, 0, 0);
+            yield return new WaitForSeconds(0.000001f);
+        }
+
+        UIRect.position = defaultPos;
         gameObj.SetActive(false);
     }
 }
