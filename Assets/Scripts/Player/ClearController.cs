@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using Mono.Cecil;
 using UnityEngine;
 
-public class KillInfo
+[System.Serializable]
+public class MonsterClearInfo
 {
     public string monsterName;
     public int killCnt;
@@ -15,12 +16,14 @@ public class ClearController : MonoBehaviour
     string npcName = "";
     int wheelClickCnt = 0;
     bool haveKey = false;
-    
-    private List<KillInfo> killList = new List<KillInfo>();
-    // 몬스터 처치 시 킬 리스트에 몬스터 이름, 킬 수 입력
-    // 리스트에 몬스터 이름 없으면 몬스터와 숫자 1 삽입 (첫 킬일 때)
-    // 몬스터 존재하면 killCnt++
 
+    private const int MONSTER_CNT = 2;
+    
+    public MonsterClearInfo[] MonsterClearList;
+    // 처치해야 하는 몬스터 정보
+    // 첫 몬스터 죽이면 이름 대조 후 죽여야 하는 수 받아옴
+    // 몬스터 죽일 때 카운트 세서 다 죽이면 클리어
+    
     void Start()
     {
         

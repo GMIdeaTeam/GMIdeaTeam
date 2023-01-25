@@ -5,41 +5,39 @@ using UnityEngine.UI;
 
 public class ClearInfo : MonoBehaviour
 {
-    public GameObject MonsterClear;
-    public GameObject MissionClear;
-    public GameObject GetItem;
+    public GameObject txt;
 
-    public GameObject InfoUI;
+    public GameObject infoUI;
 
     private const int CNT = 500;
     private float UIWidth;
 
     private void Start()
     {
-        UIWidth = InfoUI.GetComponent<RectTransform>().rect.width;
+        UIWidth = infoUI.GetComponent<RectTransform>().rect.width;
     }
 
     public void NoticeMonsterClear(string monsterName)
     {
-        StartCoroutine(IShowInfoUI(MonsterClear, monsterName, "처치"));
+        StartCoroutine(IShowInfoUI(monsterName, "처치"));
     }
     
     public void NoticeMissionClear(string missionName)
     {
-        StartCoroutine(IShowInfoUI(MissionClear, missionName, "완료"));
+        StartCoroutine(IShowInfoUI(missionName, "완료"));
     }
     
     public void NoticeGetItem(string itemName)
     {
-        StartCoroutine(IShowInfoUI(GetItem, itemName, "획득"));
+        StartCoroutine(IShowInfoUI(itemName, "획득"));
     }
 
-    IEnumerator IShowInfoUI(GameObject gameObj, string name, string action)
+    IEnumerator IShowInfoUI(string name, string action)
     {
-        gameObj.SetActive(true);
-        gameObj.GetComponent<Text>().text = name + " " + action;
+        txt.SetActive(true);
+        txt.GetComponent<Text>().text = name + " " + action;
 
-        RectTransform UIRect = InfoUI.GetComponent<RectTransform>();
+        RectTransform UIRect = infoUI.GetComponent<RectTransform>();
         Vector3 defaultPos = UIRect.position;
         
         for (int i = 1; i <= CNT; i++)
@@ -57,6 +55,6 @@ public class ClearInfo : MonoBehaviour
         }
 
         UIRect.position = defaultPos;
-        gameObj.SetActive(false);
+        txt.SetActive(false);
     }
 }
