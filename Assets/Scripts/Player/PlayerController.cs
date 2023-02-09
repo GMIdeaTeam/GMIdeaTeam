@@ -30,9 +30,11 @@ namespace Idea.Player
         {
             get
             {
-                return !isMovingStage && !isAttacking;
+                return !isMovingStage;
             }
         }
+
+        [SerializeField] GameObject attackZone;
 
         // Start is called before the first frame update
         void Start()
@@ -50,13 +52,9 @@ namespace Idea.Player
             Attack();
         }
 
-        private void FixedUpdate()
-        {
-        }
-
         private void LateUpdate()
         {
-            UpdateAnimation();
+            UpdateMoveAnimation();
         }
         private void OnTriggerEnter2D(Collider2D collision)
         {
@@ -83,7 +81,6 @@ namespace Idea.Player
         /// </summary>
         private void PlayerMove()
         {
-            Debug.Log(CanMove);
             if (CanMove)
             {
                 moveVector.x = Input.GetAxisRaw("Horizontal");
@@ -146,25 +143,29 @@ namespace Idea.Player
             if (moveVector.x > 0 && moveVector.y == 0)
             {
                 playerData.direction = PlayerData.Direction.RIGHT;
+                attackZone.transform.rotation = Quaternion.Euler(0, 0, 90);
             }
             else if (moveVector.x < 0 && moveVector.y == 0)
             {
                 playerData.direction = PlayerData.Direction.LEFT;
+                attackZone.transform.rotation = Quaternion.Euler(0, 0, -90);
             }
             else if (moveVector.y > 0 && moveVector.x == 0)
             {
                 playerData.direction = PlayerData.Direction.UP;
+                attackZone.transform.rotation = Quaternion.Euler(0, 0, 180);
             }
             else if (moveVector.y < 0 && moveVector.x == 0)
             {
                 playerData.direction = PlayerData.Direction.DOWN;
+                attackZone.transform.rotation = Quaternion.Euler(0, 0, 0);
             }
         }
 
         /// <summary>
         /// 플레이어 애니메이션 클립 적용 함수
         /// </summary>
-        private void UpdateAnimation()
+        private void UpdateMoveAnimation()
         {
             if (moveVector.x != 0 || moveVector.y != 0)
             {
@@ -195,7 +196,7 @@ namespace Idea.Player
             if (modeController.IsEditMode) Damage(2.0f * Time.deltaTime);
         }
 
-        IEnumerator DamageByMonster()
+        private IEnumerator DamageByMonster()
         {
             isBeingDamaged = true;
             while(collideMonsterNum > 0)
@@ -214,17 +215,16 @@ namespace Idea.Player
             if (Input.GetKeyDown(KeyCode.Space) && !isAttacking)
             {
                 isAttacking = true;
-                playerAnimator.SetTrigger("attack");
+                StartCoroutine(nameof(AttackDelay));
             }
         }
-
-        /// <summary>
-        /// 캐릭터 공격 애니메이션 재생이 끝날 때 실행되는 함수
-        /// Animation Event로 추가
-        /// </summary>
-        public void HandleAttackEnd()
+        
+        private IEnumerator AttackDelay()
         {
-            Debug.Log("attack end");
+            playerAnimator.SetTrigger("attack");
+            attackZone.SetActive(true);
+            yield return new WaitForSeconds(0.8f);
+            attackZone.SetActive(false);
             isAttacking = false;
         }
     }
