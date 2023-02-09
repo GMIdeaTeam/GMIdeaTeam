@@ -18,10 +18,12 @@ namespace Idea.Player
 
         [HideInInspector]
         public Direction direction = Direction.DOWN;
+
+        public Rigidbody2D PlayerRigidbody2D { get; private set; }
         // Start is called before the first frame update
         void Start()
         {
-
+            PlayerRigidbody2D = GetComponent<Rigidbody2D>();
         }
 
         // Update is called once per frame

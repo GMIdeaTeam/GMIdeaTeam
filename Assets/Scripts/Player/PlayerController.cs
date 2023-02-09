@@ -25,6 +25,16 @@ namespace Idea.Player
         bool isBeingDamaged = false;
 
         bool isMovingStage = false;
+        bool isAttacking = false;
+        private bool CanMove
+        {
+            get
+            {
+                return !isMovingStage;
+            }
+        }
+
+        [SerializeField] GameObject attackZone;
 
         // Start is called before the first frame update
         void Start()
@@ -36,18 +46,15 @@ namespace Idea.Player
         // Update is called once per frame
         void Update()
         {
-            DamageInEditMode();
-        }
-
-        private void FixedUpdate()
-        {
             PlayerMove();
             UpdateDirection();
+            DamageInEditMode();
+            Attack();
         }
 
         private void LateUpdate()
         {
-            UpdateAnimation();
+            UpdateMoveAnimation();
         }
         private void OnTriggerEnter2D(Collider2D collision)
         {
@@ -74,13 +81,14 @@ namespace Idea.Player
         /// </summary>
         private void PlayerMove()
         {
-            if (!isMovingStage)
+            if (CanMove)
             {
                 moveVector.x = Input.GetAxisRaw("Horizontal");
                 moveVector.y = Input.GetAxisRaw("Vertical");
+                
+                transform.Translate(playerData.MoveSpeed * Time.deltaTime * moveVector);
             }
 
-            transform.Translate(playerData.MoveSpeed * Time.deltaTime * moveVector);
         }
 
         /// <summary>
@@ -135,25 +143,29 @@ namespace Idea.Player
             if (moveVector.x > 0 && moveVector.y == 0)
             {
                 playerData.direction = PlayerData.Direction.RIGHT;
+                attackZone.transform.rotation = Quaternion.Euler(0, 0, 90);
             }
             else if (moveVector.x < 0 && moveVector.y == 0)
             {
                 playerData.direction = PlayerData.Direction.LEFT;
+                attackZone.transform.rotation = Quaternion.Euler(0, 0, -90);
             }
             else if (moveVector.y > 0 && moveVector.x == 0)
             {
                 playerData.direction = PlayerData.Direction.UP;
+                attackZone.transform.rotation = Quaternion.Euler(0, 0, 180);
             }
             else if (moveVector.y < 0 && moveVector.x == 0)
             {
                 playerData.direction = PlayerData.Direction.DOWN;
+                attackZone.transform.rotation = Quaternion.Euler(0, 0, 0);
             }
         }
 
         /// <summary>
         /// 플레이어 애니메이션 클립 적용 함수
         /// </summary>
-        private void UpdateAnimation()
+        private void UpdateMoveAnimation()
         {
             if (moveVector.x != 0 || moveVector.y != 0)
             {
@@ -184,7 +196,7 @@ namespace Idea.Player
             if (modeController.IsEditMode) Damage(2.0f * Time.deltaTime);
         }
 
-        IEnumerator DamageByMonster()
+        private IEnumerator DamageByMonster()
         {
             isBeingDamaged = true;
             while(collideMonsterNum > 0)
@@ -193,6 +205,27 @@ namespace Idea.Player
                 yield return new WaitForSeconds(1.0f); // 대기시간은 몬스터의 공격대기시간(추후 업데이트)
             }
             isBeingDamaged = false;
+        }
+
+        /// <summary>
+        /// 캐릭터 공격 함수
+        /// </summary>
+        private void Attack()
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && !isAttacking)
+            {
+                isAttacking = true;
+                StartCoroutine(nameof(AttackDelay));
+            }
+        }
+        
+        private IEnumerator AttackDelay()
+        {
+            playerAnimator.SetTrigger("attack");
+            attackZone.SetActive(true);
+            yield return new WaitForSeconds(0.8f);
+            attackZone.SetActive(false);
+            isAttacking = false;
         }
     }
 }
