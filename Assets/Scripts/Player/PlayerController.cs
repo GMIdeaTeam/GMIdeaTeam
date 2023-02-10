@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Idea.Util;
+using Manager;
 
 namespace Idea.Player
 {
@@ -97,39 +99,40 @@ namespace Idea.Player
         /// <param name="direction">포탈의 플레이어 전송 방향</param>
         /// <param name="distance">포탈의 플레이어 전송 거리</param>
         /// <returns></returns>
-        public IEnumerator StageMove(PlayerData.Direction direction, float distance)
+        public IEnumerator StageMove(float distance)
         {
             if (isMovingStage) yield break;
 
             Debug.Log("Move!");
 
             isMovingStage = true;
-            playerData.direction = direction;
+            var direction = playerData.direction;
 
             Vector3 startPosition = transform.position;
             Vector3 endPosition = Vector3.zero;
 
             switch (direction)
             {
-                case PlayerData.Direction.UP:
+                case Direction.UP:
                     moveVector = Vector3.up;
                     endPosition = new Vector3(startPosition.x, startPosition.y + distance);
                     break;
-                case PlayerData.Direction.RIGHT:
+                case Direction.RIGHT:
                     moveVector = Vector3.right;
                     endPosition = new Vector3(startPosition.x + distance, startPosition.y);
                     break;
-                case PlayerData.Direction.DOWN:
+                case Direction.DOWN:
                     moveVector = Vector3.down;
                     endPosition = new Vector3(startPosition.x, startPosition.y - distance);
                     break;
-                case PlayerData.Direction.LEFT:
+                case Direction.LEFT:
                     moveVector = Vector3.left;
                     endPosition = new Vector3(startPosition.x - distance, startPosition.y);
                     break;
             }
 
-            yield return new WaitForSeconds(distance / playerData.MoveSpeed);
+            GameManager.Instance.OnPortal();
+            yield return new WaitForSeconds(0.2f);
 
             transform.position = endPosition;
             isMovingStage = false;
@@ -142,22 +145,22 @@ namespace Idea.Player
         {
             if (moveVector.x > 0 && moveVector.y == 0)
             {
-                playerData.direction = PlayerData.Direction.RIGHT;
+                playerData.direction = Direction.RIGHT;
                 attackZone.transform.rotation = Quaternion.Euler(0, 0, 90);
             }
             else if (moveVector.x < 0 && moveVector.y == 0)
             {
-                playerData.direction = PlayerData.Direction.LEFT;
+                playerData.direction = Direction.LEFT;
                 attackZone.transform.rotation = Quaternion.Euler(0, 0, -90);
             }
             else if (moveVector.y > 0 && moveVector.x == 0)
             {
-                playerData.direction = PlayerData.Direction.UP;
+                playerData.direction = Direction.UP;
                 attackZone.transform.rotation = Quaternion.Euler(0, 0, 180);
             }
             else if (moveVector.y < 0 && moveVector.x == 0)
             {
-                playerData.direction = PlayerData.Direction.DOWN;
+                playerData.direction = Direction.DOWN;
                 attackZone.transform.rotation = Quaternion.Euler(0, 0, 0);
             }
         }

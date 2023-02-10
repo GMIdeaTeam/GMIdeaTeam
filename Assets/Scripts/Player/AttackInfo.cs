@@ -1,14 +1,23 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Idea.Player
 {
     public class AttackInfo : MonoBehaviour
     {
-        private int damage = 3;
+        [SerializeField] int attackPower = 5;
 
-        public void Attack()
+        private void OnEnable()
         {
             
+        }
+
+        private void OnTriggerEnter2D(Collider2D collider)
+        {
+            if (collider.CompareTag("Monster"))
+            {
+                collider.GetComponent<Monster.Monster>().OnDamage(attackPower);
+            }
         }
     }
 }
