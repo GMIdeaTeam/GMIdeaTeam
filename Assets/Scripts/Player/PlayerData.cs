@@ -2,16 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Idea.Util;
 
 namespace Idea.Player
 {
     public class PlayerData : MonoBehaviour
     {
-        public enum Direction
-        {
-            UP, RIGHT, DOWN, LEFT
-        };
-
         [field: SerializeField]
         public float MoveSpeed { get; set; } = 5f; // ModeController의 speed를 참조할 수 있도록 추후 변경
         public float HP { get; set; } = 100.0f;

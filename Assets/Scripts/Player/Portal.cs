@@ -4,30 +4,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Idea.Util;
 
-public class Portal : MonoBehaviour
+namespace Idea.Player
 {
-    [SerializeField] PlayerData.Direction direction;
-    [SerializeField] float distance;
-
-    // Start is called before the first frame update
-    void Start()
+    
+    public class Portal : MonoBehaviour
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
+        [SerializeField] Direction direction;
+        [SerializeField] float distance;
+    
+        // Start is called before the first frame update
+        void Start()
         {
-            PlayerController playerController = collision.GetComponent<PlayerController>();
-            StartCoroutine(playerController.StageMove(direction, distance));
+    
+        }
+    
+        // Update is called once per frame
+        void Update()
+        {
+            
+        }
+    
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Player"))
+            {
+                PlayerController playerController = collision.GetComponent<PlayerController>();
+                StartCoroutine(playerController.StageMove(direction, distance));
+            }
         }
     }
 }
