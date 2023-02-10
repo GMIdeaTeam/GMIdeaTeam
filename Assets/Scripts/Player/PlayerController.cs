@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Idea.Util;
+using Manager;
 
 namespace Idea.Player
 {
@@ -130,6 +131,7 @@ namespace Idea.Player
                     break;
             }
 
+            GameManager.Instance.OnPortal();
             yield return new WaitForSeconds(0.2f);
 
             transform.position = endPosition;
