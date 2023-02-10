@@ -98,14 +98,14 @@ namespace Idea.Player
         /// <param name="direction">포탈의 플레이어 전송 방향</param>
         /// <param name="distance">포탈의 플레이어 전송 거리</param>
         /// <returns></returns>
-        public IEnumerator StageMove(Direction direction, float distance)
+        public IEnumerator StageMove(float distance)
         {
             if (isMovingStage) yield break;
 
             Debug.Log("Move!");
 
             isMovingStage = true;
-            playerData.direction = direction;
+            var direction = playerData.direction;
 
             Vector3 startPosition = transform.position;
             Vector3 endPosition = Vector3.zero;
@@ -130,7 +130,7 @@ namespace Idea.Player
                     break;
             }
 
-            yield return new WaitForSeconds(distance / playerData.MoveSpeed);
+            yield return new WaitForSeconds(0.2f);
 
             transform.position = endPosition;
             isMovingStage = false;

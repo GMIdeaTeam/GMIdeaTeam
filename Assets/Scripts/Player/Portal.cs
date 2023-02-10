@@ -11,7 +11,6 @@ namespace Idea.Player
     
     public class Portal : MonoBehaviour
     {
-        [SerializeField] Direction direction;
         [SerializeField] float distance;
     
         // Start is called before the first frame update
@@ -31,7 +30,7 @@ namespace Idea.Player
             if (collision.CompareTag("Player"))
             {
                 PlayerController playerController = collision.GetComponent<PlayerController>();
-                StartCoroutine(playerController.StageMove(direction, distance));
+                StartCoroutine(playerController.StageMove(distance));
             }
         }
     }
