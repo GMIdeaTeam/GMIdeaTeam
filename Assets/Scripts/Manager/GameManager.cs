@@ -3,12 +3,10 @@ using Idea.Util;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Manager
+namespace Idea.Manager
 {
     public class GameManager : Singleton<GameManager>
     {
-        [SerializeField] Image fadePanel;
-
         public void OnPortal()
         {
             StartCoroutine(nameof(FadeInAndOut));
@@ -24,7 +22,7 @@ namespace Manager
                 t += Time.deltaTime;
                 Color color = Color.black;
                 color.a = t / 0.1f;
-                fadePanel.color = color;
+                ResourceManager.Instance.fadePanel.color = color;
                 yield return null;
             }
             while (t <= 0.4f)
@@ -37,7 +35,7 @@ namespace Manager
                 t += Time.deltaTime;
                 Color color = Color.black;
                 color.a = (0.5f - t) / 0.1f;
-                fadePanel.color = color;
+                ResourceManager.Instance.fadePanel.color = color;
                 yield return null;
             }
         }
@@ -49,7 +47,7 @@ namespace Manager
             while (t >= 0)
             {
                 t += Time.deltaTime;
-                fadePanel.canvasRenderer.SetAlpha(255 * (t / 1));
+                ResourceManager.Instance.fadePanel.canvasRenderer.SetAlpha(255 * (t / 1));
                 yield return null;
             }
         }

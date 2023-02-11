@@ -1,12 +1,10 @@
+using Idea.Manager;
+using UnityEngine;
+using Idea.Util;
+using Idea.Mode;
+
 namespace Idea.Monster
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using Unity.VisualScripting;
-    using UnityEngine;
-    using Idea.Util;
-
     public class Monster : MonoBehaviour
     {
         [field: SerializeField] private float MoveSpeed { get; set; } = 1f;
@@ -31,9 +29,14 @@ namespace Idea.Monster
         Direction direction = Direction.DOWN;
 
         Animator monsterAnimator;
+        Material originMaterial;
 
         private void Start()
         {
+            originMaterial = GetComponent<SpriteRenderer>().material;
+            GetComponent<SpriteRenderer>().material = ResourceManager.Instance.distortionMaterial;
+            ModeController.editToReadCallback += OnEditToRead;
+            ModeController.readToEditCallback += OnReadToEdit;
             monsterAnimator = GetComponent<Animator>();
         }
 
@@ -109,6 +112,16 @@ namespace Idea.Monster
             }
 
             monsterAnimator.SetFloat("direction", (float)direction);
+        }
+
+        private void OnEditToRead()
+        {
+            GetComponent<SpriteRenderer>().material = ResourceManager.Instance.distortionMaterial;
+        }
+
+        private void OnReadToEdit()
+        {
+            GetComponent<SpriteRenderer>().material = originMaterial;
         }
 
         /// <summary>

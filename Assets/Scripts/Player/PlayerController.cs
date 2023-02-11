@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Idea.Util;
-using Manager;
+using Idea.Manager;
+using Idea.Mode;
 
 namespace Idea.Player
 {
@@ -13,7 +14,7 @@ namespace Idea.Player
         /// </summary>
         Vector2 moveVector;
 
-        public ModeController.ModeController modeController;
+        public ModeController modeController;
         PlayerData playerData;
         Animator playerAnimator;
 

@@ -1,4 +1,4 @@
-using Idea.ModeController;
+using Idea.Mode;
 using Idea.Player;
 using UnityEngine;
 using UnityEngine.UI;

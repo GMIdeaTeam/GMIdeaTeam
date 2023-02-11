@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Idea.Player;
+using Idea.Util;
 using UnityEngine;
 
-namespace Idea.ModeController
+namespace Idea.Mode
 {
-    public class ModeController : MonoBehaviour
+    public class ModeController : Singleton<ModeController>
     {
         bool isEditMode = false;
 
@@ -21,14 +22,23 @@ namespace Idea.ModeController
             set { isEditMode = value; }
         }
 
+        public static Action readToEditCallback;
+        public static Action editToReadCallback;
+
+        private void Awake()
+        {
+            readToEditCallback += ChangeToEditCamera;
+            editToReadCallback += ChangeToReadCamera;
+        }
+
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.R)) // 다른 키로 바뀔 수도 있음
             {
                 if (IsEditMode)
-                    EditToRead();
+                    editToReadCallback.Invoke();
                 else
-                    ReadToEdit();
+                    readToEditCallback.Invoke();
 
                 ChangeSpeed();
                 IsEditMode = !IsEditMode;
