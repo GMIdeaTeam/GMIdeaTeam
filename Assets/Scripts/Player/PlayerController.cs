@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace Idea.Player
         Vector2 moveVector;
 
         public ModeController modeController;
+        Rigidbody2D playerRigidbody;
         PlayerData playerData;
         Animator playerAnimator;
 
@@ -42,6 +44,7 @@ namespace Idea.Player
         // Start is called before the first frame update
         void Start()
         {
+            playerRigidbody = GetComponent<Rigidbody2D>();
             playerData = GetComponent<PlayerData>();
             playerAnimator = GetComponent<Animator>();
         }
@@ -49,10 +52,14 @@ namespace Idea.Player
         // Update is called once per frame
         void Update()
         {
-            PlayerMove();
             UpdateDirection();
             DamageInEditMode();
             Attack();
+        }
+
+        void FixedUpdate()
+        {
+            PlayerMove();
         }
 
         private void LateUpdate()
@@ -86,10 +93,28 @@ namespace Idea.Player
         {
             if (CanMove)
             {
-                moveVector.x = Input.GetAxisRaw("Horizontal");
-                moveVector.y = Input.GetAxisRaw("Vertical");
-                
-                transform.Translate(playerData.MoveSpeed * Time.deltaTime * moveVector);
+                // if (Input.GetButtonDown("Horizontal"))
+                // {
+                //     playerRigidbody.AddForce(new Vector2(playerData.MoveSpeed, 0));
+                // }
+                // if (Input.GetButtonDown("Vertical"))
+                // {
+                //     playerRigidbody.AddForce(new Vector2(0, playerData.MoveSpeed));
+                // }
+                // if (Input.GetButtonUp("Horizontal"))
+                // {
+                //     playerRigidbody.AddForce(new Vector2(-playerData.MoveSpeed, 0));
+                // }
+                // if (Input.GetButtonUp("Vertical"))
+                // {
+                //     playerRigidbody.AddForce(new Vector2(0, -playerData.MoveSpeed));
+                // }
+                var horizontal = Input.GetAxisRaw("Horizontal");
+                var vertical = Input.GetAxisRaw("Vertical");
+
+                var movement = playerData.MoveSpeed * Time.deltaTime * new Vector2(horizontal, vertical);
+                playerRigidbody.MovePosition(playerRigidbody.position + movement);
+                // transform.Translate(playerData.MoveSpeed * Time.deltaTime * moveVector);
             }
 
         }
@@ -189,7 +214,7 @@ namespace Idea.Player
         /// <param name="damage"></param>
         private void Damage(float damage)
         {
-            playerData.HP -= damage;
+            playerData.HealthPoint -= damage;
         }
 
         /// <summary>

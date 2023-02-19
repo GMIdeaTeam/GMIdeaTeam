@@ -10,7 +10,7 @@ public class DreamStability : MonoBehaviour
 
     void FixedUpdate()
     {
-        GetComponent<Image>().fillAmount = playerData.HP / 100.0f;
+        GetComponent<Image>().fillAmount = playerData.HealthPoint / 100.0f;
     }
 
 }
