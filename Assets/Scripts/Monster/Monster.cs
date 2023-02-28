@@ -1,7 +1,7 @@
 using Idea.Manager;
 using UnityEngine;
 using Idea.Util;
-using Idea.Mode;
+using Idea.Manager;
 
 namespace Idea.Monster
 {
@@ -35,8 +35,8 @@ namespace Idea.Monster
         {
             originMaterial = GetComponent<SpriteRenderer>().material;
             GetComponent<SpriteRenderer>().material = ResourceManager.Instance.distortionMaterial;
-            ModeController.editToReadCallback += OnEditToRead;
-            ModeController.readToEditCallback += OnReadToEdit;
+            GameManager.editToReadCallback += OnEditToRead;
+            GameManager.readToEditCallback += OnReadToEdit;
             monsterAnimator = GetComponent<Animator>();
         }
 

@@ -1,70 +1,63 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ScreenHelper : MonoBehaviour
 {
-    private static readonly string Path = "Prefabs/UnityUtility/ScreenHelper";
-
-    public Image img_background = null;
-
-    public static ScreenHelper GetOrCreate()
+    static readonly string path = "Prefab/Utility/ScreenHelper";
+    static ScreenHelper instance = null;
+    
+    Dictionary<string, Image> imageDictionary = null;
+    public static ScreenHelper Instance
     {
-        ScreenHelper imageHelper = FindObjectOfType<ScreenHelper>();
-
-        if (imageHelper == null)
+        get
         {
-            GameObject _prefab = Resources.Load(Path) as GameObject;
-            GameObject _gameObject = Instantiate(_prefab);
-            imageHelper = _gameObject.GetComponent<ScreenHelper>();
+            if (instance == null)
+            {
+                instance = FindObjectOfType<ScreenHelper>();
+
+                if (instance == null)
+                {
+                    GameObject screenHelper = Resources.Load<GameObject>(path);
+                    screenHelper.name = nameof(ScreenHelper);
+                    Instantiate(screenHelper);
+                }
+            }
+
+            return instance;
         }
-
-        return imageHelper;
     }
 
-    public static void FadeIn(float duration, Action callback = null)
+    private void Awake()
     {
-        FadeAlpha(1.0f, 0.0f, duration, () => { callback?.Invoke(); });
-    }
-
-    public static void FadeOut(float duration, Action callback = null)
-    {
-        FadeAlpha(0.0f, 1.0f, duration, () => { callback?.Invoke(); });
-    }
-
-    private static void FadeAlpha(float startAlpha, float targetAlpha, float duration, Action callback = null)
-    {
-        ScreenHelper helper = GetOrCreate();
-        helper.StopAllCoroutines();
-        helper.StartCoroutine(helper.Co_FadeAlpha(startAlpha, targetAlpha, duration, () => { callback?.Invoke(); }));
-    }
-
-    private IEnumerator Co_FadeAlpha(float startAlpha, float targetAlpha, float duration, Action callback = null)
-    {
-        Color startColor = img_background.color;
-        startColor.a = startAlpha;
-        img_background.color = startColor;
-        img_background.raycastTarget = true;
-
-        float start = img_background.color.a;
-        float end = targetAlpha;
-        float time = 0.0f;
-
-        while (Mathf.Abs(end - img_background.color.a) >= 0.03)
+        imageDictionary = new Dictionary<string, Image>();
+        var images = Instance.transform.GetComponentsInChildren<Image>(true);
+        foreach (var image in images)
         {
-            time += Time.deltaTime / duration;
-            Color newColor = img_background.color;
-            newColor.a = Mathf.Lerp(start, end, time);
-            img_background.color = newColor;
-            yield return null;
+            imageDictionary.Add(image.name, image);
         }
+    }
 
-        Color lastColor = img_background.color;
-        lastColor.a = targetAlpha;
-        img_background.color = lastColor;
-        img_background.raycastTarget = false;
+    public static void FadeIn(string imageName, float duration)
+    {
+        Image target = null;
+        if (Instance.imageDictionary.TryGetValue(imageName, out target))
+        {
+            if (!target.gameObject.activeSelf) target.gameObject.SetActive(true);
+            target.DOFade(1, duration);
+        }
+    }
 
-        callback?.Invoke();
+    public static void FadeOut(string imageName, float duration)
+    {
+        Image target = null;
+        if (Instance.imageDictionary.TryGetValue(imageName, out target))
+        {
+            if (!target.gameObject.activeSelf) target.gameObject.SetActive(true);
+            target.DOFade(0, duration);
+        }
     }
 }

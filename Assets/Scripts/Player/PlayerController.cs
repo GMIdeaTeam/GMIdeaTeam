@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Idea.Util;
 using Idea.Manager;
-using Idea.Mode;
 
 namespace Idea.Player
 {
@@ -15,7 +14,6 @@ namespace Idea.Player
         /// </summary>
         Vector2 moveVector;
 
-        public ModeController modeController;
         Rigidbody2D playerRigidbody;
         PlayerData playerData;
         Animator playerAnimator;
@@ -222,7 +220,7 @@ namespace Idea.Player
         /// </summary>
         private void DamageInEditMode()
         {
-            if (modeController.IsEditMode) Damage(2.0f * Time.deltaTime);
+            if (GameManager.Instance.IsEditMode) Damage(2.0f * Time.deltaTime);
         }
 
         private IEnumerator DamageByMonster()

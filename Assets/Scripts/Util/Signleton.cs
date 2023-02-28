@@ -4,33 +4,33 @@ namespace Idea.Util
 {
     public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-        private static T _instance = null;
+        private static T instance = null;
 
         public static T Instance
         {
             get
             {
-                if (_instance == null)
+                if (instance == null)
                 {
-                    _instance = FindObjectOfType<T>();
+                    instance = FindObjectOfType<T>();
 
-                    if (_instance == null)
+                    if (instance == null)
                     {
                         GameObject singletonObject = new GameObject();
 
                         singletonObject.name = typeof(T).ToString();
 
-                        _instance = singletonObject.AddComponent<T>();
+                        instance = singletonObject.AddComponent<T>();
                     }
                 }
 
-                return _instance;
+                return instance;
             }
         }
 
         public virtual void Awake()
         {
-            if (_instance != null && _instance != this)
+            if (instance != null && instance != this)
             {
                 Destroy(gameObject);
 
@@ -39,7 +39,7 @@ namespace Idea.Util
 
             else
             {
-                _instance = GetComponent<T>();
+                instance = GetComponent<T>();
             }
 
             if (Application.isPlaying)
