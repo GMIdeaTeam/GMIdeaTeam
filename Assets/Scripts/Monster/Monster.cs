@@ -102,16 +102,16 @@ namespace Idea.Monster
 
         private void UpdateAnimation()
         {
-            if (moveVector.x != 0 || moveVector.y != 0)
+            /*if (moveVector.x != 0 || moveVector.y != 0)
             {
                 monsterAnimator.SetBool("isMove", true);
             }
             else
-            {
+            {*/
                 monsterAnimator.SetBool("isMove", true);
-            }
+            //}
 
-            monsterAnimator.SetFloat("direction", (float)direction);
+            monsterAnimator.SetInteger("direction", (int)direction);
         }
 
         private void OnEditToRead()

@@ -217,6 +217,7 @@ GameObject:
   m_Component:
   - component: {fileID: 571102462}
   - component: {fileID: 571102461}
+  - component: {fileID: 571102464}
   - component: {fileID: 571102463}
   m_Layer: 0
   m_Name: Rabbit_Walk_FRONT
@@ -312,3 +313,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &571102464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 571102458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4de5590746372c04cad71a29e408d6a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <MoveSpeed>k__BackingField: 1
+  hp: 8
+  player: {fileID: 0}
