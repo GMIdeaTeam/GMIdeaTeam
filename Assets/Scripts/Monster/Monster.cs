@@ -1,7 +1,11 @@
+using System;
+using System.Collections;
+using System.Threading.Tasks;
 using Idea.Manager;
 using UnityEngine;
 using Idea.Util;
 using Idea.Manager;
+using Random = UnityEngine.Random;
 
 namespace Idea.Monster
 {
@@ -28,8 +32,11 @@ namespace Idea.Monster
         Vector2 moveVector;
         Direction direction = Direction.DOWN;
 
-        Animator monsterAnimator;
+        protected Animator monsterAnimator;
         Material originMaterial;
+
+        protected Rigidbody2D rb;
+        protected int hor, ver;
 
         private void Start()
         {
@@ -37,10 +44,44 @@ namespace Idea.Monster
             GetComponent<SpriteRenderer>().material = ResourceManager.Instance.distortionMaterial;
             GameManager.editToReadCallback += OnEditToRead;
             GameManager.readToEditCallback += OnReadToEdit;
-            monsterAnimator = GetComponent<Animator>();
+            //monsterAnimator = GetComponent<Animator>();
         }
 
-        private void OnTriggerStay2D(Collider2D other)
+        private void FixedUpdate()
+        {
+            // 상속받은 몬스터가 자유이동일 때 FixedUpdate에 써줄 것
+            rb.velocity = new Vector2(hor, ver);
+        }
+
+        protected void Wander()
+        {
+            hor = Random.Range(-1, 2);
+            ver = Random.Range(-1, 2);
+
+            if (hor > 0)
+            {
+                direction = Direction.RIGHT;
+            }
+            else if (hor < 0)
+            {
+                direction = Direction.LEFT;
+            }
+            else if (ver > 0)
+            {
+                direction = Direction.UP;
+            }
+            else if (ver < 0)
+            {
+                direction = Direction.DOWN;
+            }
+            
+            UpdateAnimation();
+            
+            Invoke("Wander", Random.Range(1, 3));
+        }
+
+        /* 플레이어 주시형일 때 사용
+         private void OnTriggerStay2D(Collider2D other)
         {
             if (other.CompareTag("Player"))
             {
@@ -48,8 +89,9 @@ namespace Idea.Monster
                 // 공격하기
             }
         }
-
-        private void FollowPlayer()
+        */
+        
+        protected void FollowPlayer()
         {
             if (player.transform.position.x > gameObject.transform.position.x)
             {
@@ -79,6 +121,8 @@ namespace Idea.Monster
 
             UpdateAnimation();
         }
+        
+        
 
         private void UpdateDirection()
         {
@@ -102,6 +146,7 @@ namespace Idea.Monster
 
         private void UpdateAnimation()
         {
+            monsterAnimator.SetInteger("direction", (int)direction);
             /*if (moveVector.x != 0 || moveVector.y != 0)
             {
                 monsterAnimator.SetBool("isMove", true);
@@ -110,8 +155,6 @@ namespace Idea.Monster
             {*/
                 monsterAnimator.SetBool("isMove", true);
             //}
-
-            monsterAnimator.SetInteger("direction", (int)direction);
         }
 
         private void OnEditToRead()
