@@ -1,3 +1,4 @@
+using System;
 using Idea.Manager;
 using UnityEngine;
 using Idea.Util;
@@ -6,8 +7,13 @@ using Idea.Player;
 
 namespace Idea.Monster
 {
-    public abstract class Monster : MonoBehaviour
+    public abstract class MonsterBase : MonoBehaviour
     {
+        Animator monsterAnimator;
+        SpriteRenderer monsterRenderer;
+        Material originMaterial;
+        Material distortionMaterial;
+        
         [field:SerializeField] protected float MoveSpeed { get; set; }
         [field:SerializeField] protected int MaxHp { get; set; }
         [field:SerializeField] protected int CurrentHp { get; set; }
@@ -18,11 +24,6 @@ namespace Idea.Monster
 
         Vector2 moveVector;
         Direction direction = Direction.DOWN;
-
-        Animator monsterAnimator;
-        SpriteRenderer monsterRenderer;
-        Material originMaterial;
-        Material distortionMaterial;
 
         private void Awake()
         {
@@ -36,12 +37,20 @@ namespace Idea.Monster
 
             monsterRenderer.material = GameManager.Instance.IsEditMode ? originMaterial : distortionMaterial;
             
-            GameManager.editToReadCallback += OnEditToRead;
-            GameManager.readToEditCallback += OnReadToEdit;
-
             player = FindObjectOfType<PlayerData>().gameObject;
         }
 
+        private void OnEnable()
+        {
+            GameManager.editToReadCallback += OnEditToRead;
+            GameManager.readToEditCallback += OnReadToEdit;
+        }
+
+        private void OnDisable()
+        {
+            GameManager.editToReadCallback -= OnEditToRead;
+            GameManager.readToEditCallback -= OnReadToEdit;
+        }
         private void OnTriggerStay2D(Collider2D other)
         {
             if (other.CompareTag("Player"))

@@ -16,7 +16,7 @@ namespace Idea.Player
         {
             if (collider.CompareTag("Monster"))
             {
-                collider.GetComponent<Monster.Monster>().OnDamage(attackPower);
+                collider.GetComponent<Monster.MonsterBase>().OnDamage(attackPower);
             }
         }
     }
