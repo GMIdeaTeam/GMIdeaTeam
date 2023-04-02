@@ -47,11 +47,12 @@ namespace Idea.Monster
             //monsterAnimator = GetComponent<Animator>();
         }
 
+        /*
         private void FixedUpdate()
         {
             // 상속받은 몬스터가 자유이동일 때 FixedUpdate에 써줄 것
             rb.velocity = new Vector2(hor, ver);
-        }
+        } */
 
         protected void Wander()
         {
