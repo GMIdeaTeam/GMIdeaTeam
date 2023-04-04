@@ -271,6 +271,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3517260621709916057, guid: ad85181c3d880cc4d8294c43c05e4868, type: 3}
+      propertyPath: ease
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3517260621709916057, guid: ad85181c3d880cc4d8294c43c05e4868, type: 3}
+      propertyPath: rabbitHeadPrefab
+      value: 
+      objectReference: {fileID: 6199664364713376445, guid: 3822fd6fb2336e34481f35dd2d7f72f7, type: 3}
+    - target: {fileID: 3517260621709916057, guid: ad85181c3d880cc4d8294c43c05e4868, type: 3}
+      propertyPath: wayPoint.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3517260621709916057, guid: ad85181c3d880cc4d8294c43c05e4868, type: 3}
+      propertyPath: wayPoint.Array.data[0]
+      value: 
+      objectReference: {fileID: 226943256}
     - target: {fileID: 6874781312391601845, guid: ad85181c3d880cc4d8294c43c05e4868, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -321,6 +337,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad85181c3d880cc4d8294c43c05e4868, type: 3}
+--- !u!1 &6874781312546520436 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6874781312391601847, guid: ad85181c3d880cc4d8294c43c05e4868, type: 3}
+  m_PrefabInstance: {fileID: 6874781312546520435}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8863701160616690316
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -380,6 +401,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
+    - target: {fileID: 8863701160113788813, guid: d9462e9ca1fe6a842bdc5a0318e9abd0, type: 3}
+      propertyPath: RabbitBody
+      value: 
+      objectReference: {fileID: 6874781312546520436}
     - target: {fileID: 8863701160113788814, guid: d9462e9ca1fe6a842bdc5a0318e9abd0, type: 3}
       propertyPath: m_Constraints
       value: 4

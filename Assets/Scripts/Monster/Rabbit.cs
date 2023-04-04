@@ -7,7 +7,8 @@ using UnityEngine.PlayerLoop;
 
 public class Rabbit : Monster
 {
-    // Start is called before the first frame update
+    [SerializeField] private GameObject RabbitBody;
+    
     void Start()
     {
         monsterAnimator = GetComponent<Animator>();
@@ -18,6 +19,18 @@ public class Rabbit : Monster
     
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(hor, ver);
+        rb.velocity = new Vector2(hor, ver) * MoveSpeed;
+    }
+
+    void AfterDie()
+    {
+        // 몸통 등장
+        RabbitBody.SetActive(true);
+        Invoke("HeadFountain", 0.3f);
+    }
+    
+    void HeadFountain()
+    {
+        // instantiate
     }
 }

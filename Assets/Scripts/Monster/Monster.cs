@@ -11,7 +11,7 @@ namespace Idea.Monster
 {
     public class Monster : MonoBehaviour
     {
-        [field: SerializeField] private float MoveSpeed { get; set; } = 1f;
+        [field: SerializeField] protected float MoveSpeed { get; set; } = 1f;
 
         [SerializeField] int hp;
 
@@ -51,7 +51,7 @@ namespace Idea.Monster
         private void FixedUpdate()
         {
             // 상속받은 몬스터가 자유이동일 때 FixedUpdate에 써줄 것
-            rb.velocity = new Vector2(hor, ver);
+            rb.velocity = new Vector2(hor, ver) * MoveSpeed;
         } */
 
         protected void Wander()
