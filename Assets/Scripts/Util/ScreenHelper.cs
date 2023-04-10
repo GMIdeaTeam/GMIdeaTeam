@@ -60,4 +60,16 @@ public class ScreenHelper : MonoBehaviour
             target.DOFade(0, duration);
         }
     }
+
+    public static void FadeInOut(string imageName, float fadeInDuration, float fadeOutDuration)
+    {
+        Image target = null;
+        if (Instance.imageDictionary.TryGetValue(imageName, out target))
+        {
+            if (!target.gameObject.activeSelf) target.gameObject.SetActive(true);
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(target.DOFade(1, fadeInDuration));
+            sequence.Append(target.DOFade(0, fadeOutDuration));
+        }
+    }
 }

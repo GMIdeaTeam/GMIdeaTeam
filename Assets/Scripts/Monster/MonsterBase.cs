@@ -1,45 +1,56 @@
+using System;
 using Idea.Manager;
 using UnityEngine;
 using Idea.Util;
 using Idea.Manager;
+using Idea.Player;
 
 namespace Idea.Monster
 {
-    public class Monster : MonoBehaviour
+    public abstract class MonsterBase : MonoBehaviour
     {
-        [field: SerializeField] private float MoveSpeed { get; set; } = 1f;
+        Animator monsterAnimator;
+        SpriteRenderer monsterRenderer;
+        Material originMaterial;
+        Material distortionMaterial;
+        
+        [field:SerializeField] protected float MoveSpeed { get; set; }
+        [field:SerializeField] protected int MaxHp { get; set; }
+        [field:SerializeField] protected int CurrentHp { get; set; }
 
-        [SerializeField] int hp;
+        protected bool IsDie => (CurrentHp <= 0);
 
-        private int HP
-        {
-            get => hp;
-            set
-            {
-                if (hp <= 0) hp = 0;
-                else hp = value;
-            }
-        }
-
-        public bool IsDie => (HP <= 0);
-
-        public GameObject player;
+        GameObject player;
 
         Vector2 moveVector;
         Direction direction = Direction.DOWN;
 
-        Animator monsterAnimator;
-        Material originMaterial;
-
-        private void Start()
+        private void Awake()
         {
-            originMaterial = GetComponent<SpriteRenderer>().material;
-            GetComponent<SpriteRenderer>().material = ResourceManager.Instance.distortionMaterial;
-            GameManager.editToReadCallback += OnEditToRead;
-            GameManager.readToEditCallback += OnReadToEdit;
+            monsterRenderer = GetComponent<SpriteRenderer>();
             monsterAnimator = GetComponent<Animator>();
         }
+        private void Start()
+        {
+            originMaterial = monsterRenderer.material;
+            distortionMaterial = ResourceManager.Instance.distortionMaterial;
 
+            monsterRenderer.material = GameManager.Instance.IsEditMode ? originMaterial : distortionMaterial;
+            
+            player = FindObjectOfType<PlayerData>().gameObject;
+        }
+
+        private void OnEnable()
+        {
+            GameManager.editToReadCallback += OnEditToRead;
+            GameManager.readToEditCallback += OnReadToEdit;
+        }
+
+        private void OnDisable()
+        {
+            GameManager.editToReadCallback -= OnEditToRead;
+            GameManager.readToEditCallback -= OnReadToEdit;
+        }
         private void OnTriggerStay2D(Collider2D other)
         {
             if (other.CompareTag("Player"))
@@ -116,12 +127,12 @@ namespace Idea.Monster
 
         private void OnEditToRead()
         {
-            GetComponent<SpriteRenderer>().material = ResourceManager.Instance.distortionMaterial;
+            monsterRenderer.material = distortionMaterial;
         }
 
         private void OnReadToEdit()
         {
-            GetComponent<SpriteRenderer>().material = originMaterial;
+            monsterRenderer.material = originMaterial;
         }
 
         /// <summary>
@@ -130,7 +141,7 @@ namespace Idea.Monster
         /// <param name="damage"></param>
         public void OnDamage(int damage)
         {
-            HP -= damage;
+            CurrentHp -= damage;
             if (IsDie) OnDie();
         }
 
