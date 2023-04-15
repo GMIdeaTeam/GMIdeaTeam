@@ -29,7 +29,7 @@ namespace Idea.Player
         {
             if (collision.CompareTag("Player"))
             {
-                PlayerController playerController = collision.GetComponent<PlayerController>();
+                PlayerMoveController playerController = collision.GetComponent<PlayerMoveController>();
                 StartCoroutine(playerController.StageMove(distance));
             }
         }

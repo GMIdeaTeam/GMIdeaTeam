@@ -12,17 +12,12 @@ namespace Idea.Player
         public float MoveSpeed { get; set; } = 5f; // ModeController의 speed를 참조할 수 있도록 추후 변경
         public float HealthPoint { get; set; } = 100.0f;
 
-        [HideInInspector]
-        public Direction direction = Direction.DOWN;
+        [HideInInspector] public Direction direction = Direction.DOWN;
+        
+        // flags
+        [HideInInspector] public bool isMovingStage = false;
+        [HideInInspector] public bool isAttacking = false;
 
-        public Rigidbody2D PlayerRigidbody2D { get; private set; }
-        // Start is called before the first frame update
-        void Start()
-        {
-            PlayerRigidbody2D = GetComponent<Rigidbody2D>();
-        }
-
-        // Update is called once per frame
         void Update()
         {
             //Debug.Log($"HP : {HP}");
